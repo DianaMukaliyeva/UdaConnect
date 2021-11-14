@@ -1,0 +1,7 @@
+1. The frontend and database are already running as a separate services. So we leave it as it is.
+
+2. Because `Connection Service` communicates with `Person Service`, and both services are used by endpoints `/persons...` - the decision came to combine them to separate persons service.
+The frontend already communicates with endpoints `/persons...` via REST, it is wise to leave REST there.
+
+3. The `POST /locations/:locationId` endpoint must handle the large volume of location data that will be ingested. Using Kafka will help prevent server from crashing due to high load and we will not loose any information.
+Because we expect a lot of requests to `/locations` endpoints - we will use gRPC as gRPC provides greater performance than REST.
