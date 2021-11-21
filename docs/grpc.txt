@@ -1,0 +1,8 @@
+# Documentation of grpc endpoint and how to make a sample request
+
+Locations-api has 2 grpc endpoints: one creates Locations and another retrieve Location by id
+
+To send sample request you can use file `modules/locations-api/app/client.py` - if you have running services locally.
+The only change needed is to adjust line 10 of this file so `channel = grpc.insecure_channel("localhost:5005")` so that it connects to correst host and port number.
+
+The parameters could be changed.
