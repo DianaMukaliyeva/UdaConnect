@@ -34,12 +34,3 @@ class LocationService:
       "latitude": location[3],
       "creation_time": location[4]
     }
-
-  @staticmethod
-  def create(person_id, longitude, latitude) -> location_pb2.LocationMessage:
-    db = db_connect()
-    cursor = db.cursor()
-    cursor.execute('INSERT INTO location (person_id, coordinate) VALUES (%s, ST_POINT(%s, %s))', (person_id, latitude, longitude))
-    db.commit()
-    cursor.close()
-    db.close()

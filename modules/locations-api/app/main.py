@@ -5,8 +5,11 @@ import grpc
 import location_pb2
 import location_pb2_grpc
 from service import  LocationService
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaProducer
+from json import dumps
 
+TOPIC_NAME = 'locations'
+KAFKA_SERVER = 'kafka-service:9092'
 
 class LocationServicer(location_pb2_grpc.LocationServiceServicer):
   def Get(self, request, context):
@@ -19,7 +22,9 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
       "longitude": float(request.longitude),
       "latitude": float(request.latitude),
     }
-    LocationService.create(int(request.person_id), float(request.longitude), float(request.latitude))
+    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+    producer.send(TOPIC_NAME, dumps(request_value).encode())
+    producer.flush()
 
     return location_pb2.LocationMessage(**request_value)
 
