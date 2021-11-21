@@ -30,7 +30,8 @@ def create_location(location):
   cursor.close()
   db.close()
 
-consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=KAFKA_SERVER)
+while True:
+  consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=KAFKA_SERVER)
 
-for location in consumer:
-  create_location(loads(location.value.decode("utf-8")))
+  for location in consumer:
+    create_location(loads(location.value.decode("utf-8")))
